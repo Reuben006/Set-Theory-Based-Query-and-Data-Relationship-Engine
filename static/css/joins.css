@@ -1,1 +1,0 @@
-.joins-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }.joins-grid select { width: 100%; min-height: 36px; } @media (max-width: 700px) { .joins-grid { grid-template-columns: 1fr; } }
