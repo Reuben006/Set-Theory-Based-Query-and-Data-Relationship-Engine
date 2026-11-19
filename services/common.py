@@ -44,7 +44,11 @@ def build_set(df, columns):
             continue
         values.append(SET_SEPARATOR.join(to_element(value) for value in row))
     elements = list(dict.fromkeys(values))
-    return elements, {"rows": len(df), "missing_dropped": missing_dropped, "duplicates_removed": len(values) - len(elements)}
+    return elements, {
+        "rows": len(df),
+        "missing_dropped": missing_dropped,
+        "duplicates_removed": len(values) - len(elements),
+    }
 
 
 def load_set(spec):

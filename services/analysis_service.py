@@ -16,4 +16,8 @@ def summarize(kind, stats):
 def overview():
     kinds = ["set_operation", "cartesian", "relation", "equivalence", "join"]
     records = store.list_results()
-    return {"datasets": len(store.list_datasets()), "results": len(records), "by_kind": {kind: sum(record["kind"] == kind for record in records) for kind in kinds}}
+    return {
+        "datasets": len(store.list_datasets()),
+        "results": len(records),
+        "by_kind": {kind: sum(record["kind"] == kind for record in records) for kind in kinds},
+    }

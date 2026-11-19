@@ -27,10 +27,29 @@ def generate(payload):
     if total_pairs > CARTESIAN_MAX:
         raise ApiError("Cartesian product is too large. Maximum is 1,000,000 pairs.")
     if total_pairs > CARTESIAN_WARN and not confirm:
-        return {"warning": True, "total_pairs": total_pairs, "message": f"This will create {total_pairs:,} pairs. Send confirm=true to continue."}
+        return {
+            "warning": True,
+            "total_pairs": total_pairs,
+            "message": f"This will create {total_pairs:,} pairs. Send confirm=true to continue.",
+        }
     pairs = make_pairs(list_a, list_b)
     stats = {"size_a": len(list_a), "size_b": len(list_b), "pair_count": total_pairs}
     summary = analysis_service.summarize("cartesian", stats)
-    result_id = store.add_result("cartesian", f"Cartesian product: {name_a} x {name_b}", pd.DataFrame(pairs, columns=["a", "b"]), stats, summary)
+    result_id = store.add_result(
+        "cartesian",
+        f"Cartesian product: {name_a} x {name_b}",
+        pd.DataFrame(pairs, columns=["a", "b"]),
+        stats,
+        summary,
+    )
     preview, truncated = limit_preview(pairs)
-    return {"warning": False, "result_id": result_id, "kind": "cartesian", "pairs": preview, "count": total_pairs, "truncated": truncated, "stats": stats, "summary": summary}
+    return {
+        "warning": False,
+        "result_id": result_id,
+        "kind": "cartesian",
+        "pairs": preview,
+        "count": total_pairs,
+        "truncated": truncated,
+        "stats": stats,
+        "summary": summary,
+    }
