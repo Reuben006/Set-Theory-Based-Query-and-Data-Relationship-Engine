@@ -63,17 +63,19 @@ def is_reflexive(base_set, pair_set):
     return not witnesses, witnesses
 
 
-def is_symmetric(pair_set):
-    witnesses = [[a, b] for a, b in pair_set if (b, a) not in pair_set][:WITNESS_LIMIT]
+def is_symmetric(pair_set, ordered_pairs=None):
+    pairs = ordered_pairs if ordered_pairs is not None else sorted(pair_set)
+    witnesses = [[a, b] for a, b in pairs if (b, a) not in pair_set][:WITNESS_LIMIT]
     return not witnesses, witnesses
 
 
-def is_transitive(pair_set):
+def is_transitive(pair_set, ordered_pairs=None):
+    pairs = ordered_pairs if ordered_pairs is not None else sorted(pair_set)
     links = {}
-    for a, b in pair_set:
+    for a, b in pairs:
         links.setdefault(a, []).append(b)
     witnesses = []
-    for a, b in pair_set:
+    for a, b in pairs:
         for c in links.get(b, []):
             if (a, c) not in pair_set:
                 witnesses.append([a, b, c])
@@ -112,8 +114,9 @@ def check_properties(result_id):
     pairs = {tuple(pair) for pair in record["extra"]["pairs"]}
     base_set = record["extra"]["base_set"]
     reflexive = is_reflexive(base_set, pairs)
-    symmetric = is_symmetric(pairs)
-    transitive = is_transitive(pairs)
+    ordered_pairs = record["extra"]["pairs"]
+    symmetric = is_symmetric(pairs, ordered_pairs)
+    transitive = is_transitive(pairs, ordered_pairs)
     equivalence = all(item[0] for item in [reflexive, symmetric, transitive])
     record["stats"].update({"reflexive": reflexive[0], "symmetric": symmetric[0], "transitive": transitive[0], "is_equivalence": equivalence})
     words = [name for name, item in [("reflexive", reflexive), ("symmetric", symmetric), ("transitive", transitive)] if item[0]]

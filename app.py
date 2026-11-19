@@ -1,4 +1,5 @@
 from flask import Flask, send_from_directory
+from werkzeug.exceptions import HTTPException
 
 from config import MAX_UPLOAD_MB
 from routes import cartesian, datasets, equivalence, export, joins, relations, results, sets
@@ -31,6 +32,8 @@ def create_app():
 
     @app.errorhandler(Exception)
     def handle_exception(error):
+        if isinstance(error, HTTPException):
+            return fail(error.description, error.code)
         return fail("Something went wrong on the server.", 500)
 
     return app

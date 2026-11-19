@@ -8,4 +8,4 @@ bp = Blueprint("cartesian", __name__)
 
 @bp.route("/generate", methods=["POST"])
 def generate():
-    return ok(cartesian_service.generate(read_json(["set_a", "set_b", "confirm"])))
+    return ok(cartesian_service.generate(read_json(["set_a", "set_b"])))

@@ -1,7 +1,38 @@
 const CartesianTab = {
-  init() { this.pickerA = Ui.createSetPicker(document.querySelector("#cartesian-picker-a"), "Set A"); this.pickerB = Ui.createSetPicker(document.querySelector("#cartesian-picker-b"), "Set B"); document.querySelector("#cartesian-run").addEventListener("click", () => this.run(false)); document.querySelector("#cartesian-confirm").addEventListener("click", () => this.run(true)); },
+  init() {
+    this.pickerA = Ui.createSetPicker(document.querySelector("#cartesian-picker-a"), "Set A");
+    this.pickerB = Ui.createSetPicker(document.querySelector("#cartesian-picker-b"), "Set B");
+    document.querySelector("#cartesian-run").addEventListener("click", () => this.run(false));
+    document.querySelector("#cartesian-confirm").addEventListener("click", () => this.run(true));
+  },
   async run(confirm) {
-    const button = confirm ? document.querySelector("#cartesian-confirm") : document.querySelector("#cartesian-run");
-    try { Ui.setBusy(button, true); const data = await Api.post("/api/cartesian/generate", { set_a: this.pickerA.getValue(), set_b: this.pickerB.getValue(), confirm }); if (data.warning) { const warning = document.querySelector("#cartesian-warning"); warning.querySelector("p").textContent = data.message; warning.classList.remove("hidden"); return; } document.querySelector("#cartesian-warning").classList.add("hidden"); Ui.renderSummary(document.querySelector("#cartesian-summary"), data.summary); Ui.renderStats(document.querySelector("#cartesian-stats"), data.stats); Ui.renderTable(document.querySelector("#cartesian-result"), ["A", "B"], data.pairs); Ui.renderExportButton(document.querySelector("#cartesian-export"), data.result_id); if (data.truncated) Ui.toast("Showing the first 1000 pairs. Export has all pairs.", "success"); } catch (error) { Ui.toast(error.message, "error"); } finally { Ui.setBusy(button, false); }
-  }
+    const button = confirm
+      ? document.querySelector("#cartesian-confirm")
+      : document.querySelector("#cartesian-run");
+    try {
+      Ui.setBusy(button, true);
+      const data = await Api.post("/api/cartesian/generate", {
+        set_a: this.pickerA.getValue(),
+        set_b: this.pickerB.getValue(),
+        confirm,
+      });
+      if (data.warning) {
+        const warning = document.querySelector("#cartesian-warning");
+        warning.querySelector("p").textContent = data.message;
+        warning.classList.remove("hidden");
+        return;
+      }
+      document.querySelector("#cartesian-warning").classList.add("hidden");
+      Ui.renderSummary(document.querySelector("#cartesian-summary"), data.summary);
+      Ui.renderStats(document.querySelector("#cartesian-stats"), data.stats);
+      Ui.renderTable(document.querySelector("#cartesian-result"), ["A", "B"], data.pairs);
+      Ui.renderExportButton(document.querySelector("#cartesian-export"), data.result_id);
+      if (data.truncated)
+        Ui.toast("Showing the first 1000 pairs. Export has all pairs.", "success");
+    } catch (error) {
+      Ui.toast(error.message, "error");
+    } finally {
+      Ui.setBusy(button, false);
+    }
+  },
 };

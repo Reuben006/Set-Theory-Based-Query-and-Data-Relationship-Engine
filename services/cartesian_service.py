@@ -16,6 +16,7 @@ def make_pairs(list_a, list_b):
 
 
 def generate(payload):
+    confirm = bool(payload.get("confirm", False))
     list_a, _, name_a = load_set(payload["set_a"])
     list_b, _, name_b = load_set(payload["set_b"])
     if not list_a:
@@ -25,7 +26,7 @@ def generate(payload):
     total_pairs = count_pairs(list_a, list_b)
     if total_pairs > CARTESIAN_MAX:
         raise ApiError("Cartesian product is too large. Maximum is 1,000,000 pairs.")
-    if total_pairs > CARTESIAN_WARN and not payload.get("confirm", False):
+    if total_pairs > CARTESIAN_WARN and not confirm:
         return {"warning": True, "total_pairs": total_pairs, "message": f"This will create {total_pairs:,} pairs. Send confirm=true to continue."}
     pairs = make_pairs(list_a, list_b)
     stats = {"size_a": len(list_a), "size_b": len(list_b), "pair_count": total_pairs}
