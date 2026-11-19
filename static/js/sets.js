@@ -2,12 +2,31 @@ const SetsTab = {
   init() {
     this.pickerA = Ui.createSetPicker(document.querySelector("#sets-picker-a"), "Set A");
     this.pickerB = Ui.createSetPicker(document.querySelector("#sets-picker-b"), "Set B");
+    document.querySelector("#sets-preview-a").addEventListener("click", () => this.preview(this.pickerA));
+    document.querySelector("#sets-preview-b").addEventListener("click", () => this.preview(this.pickerB));
     document.querySelector("#sets-run").addEventListener("click", () => this.run());
     document.querySelector("#sets-swap").addEventListener("click", () => {
       const a = this.pickerA.getValue();
       this.pickerA.setValue(this.pickerB.getValue());
       this.pickerB.setValue(a);
     });
+  },
+  async preview(picker) {
+    try {
+      const data = await Api.post("/api/sets/preview", picker.getValue());
+      const info = `${data.count} elements`;
+      const container = document.querySelector("#sets-preview");
+      Ui.renderSummary(container, info);
+      const table = document.createElement("div");
+      Ui.renderTable(
+        table,
+        ["Element"],
+        data.elements.map((item) => [item]),
+      );
+      container.append(table);
+    } catch (error) {
+      Ui.toast(error.message, "error");
+    }
   },
   async run() {
     const button = document.querySelector("#sets-run");

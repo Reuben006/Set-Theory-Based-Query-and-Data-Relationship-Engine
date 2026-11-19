@@ -95,10 +95,18 @@ const RelationsTab = {
   async check() {
     try {
       const data = await Api.post(`/api/relations/${this.resultId}/properties`, {});
-      document.querySelector("#relations-props").innerHTML =
-        `<p>${Ui.escape(data.summary)}</p><div class="relations-props">${["reflexive", "symmetric", "transitive"].map((name) => `<div><strong>${name}</strong><p class="${data[name].holds ? "yes" : "no"}">${data[name].holds ? "YES" : "NO"}</p><small>${Ui.escape(JSON.stringify(data[name].witnesses))}</small></div>`).join("")}</div>`;
+      document.querySelector("#relations-props").innerHTML = this.propertyCards(data);
     } catch (error) {
       Ui.toast(error.message, "error");
     }
+  },
+  propertyCards(data) {
+    const names = ["reflexive", "symmetric", "transitive"];
+    return `<p>${Ui.escape(data.summary)}</p><div class="relations-props">${names.map((name) => this.propertyCard(name, data[name])).join("")}</div>`;
+  },
+  propertyCard(name, property) {
+    const status = property.holds ? "YES" : "NO";
+    const witnesses = property.witnesses.map((item) => item.join(" → ")).join(", ") || "None";
+    return `<div><strong>${name}</strong><p class="${property.holds ? "yes" : "no"}">${status}</p><small>${Ui.escape(witnesses)}</small></div>`;
   },
 };

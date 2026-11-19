@@ -107,6 +107,11 @@ const EquivalenceTab = {
             `<div class="card"><strong>Class ${item.class_id}: ${Ui.escape(item.key)} (${item.size})</strong><p class="class-members">${item.members.map((member) => Ui.escape(member)).join(", ")}</p></div>`,
         )
         .join("");
+      Ui.renderTable(
+        document.querySelector("#equivalence-sizes"),
+        ["Class key", "Size"],
+        data.stats.sizes.map((item) => [item.key, item.size]),
+      );
       Ui.renderExportButton(document.querySelector("#equivalence-export"), data.result_id);
     } catch (error) {
       Ui.toast(error.message, "error");

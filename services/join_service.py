@@ -17,8 +17,9 @@ def run_join(left_df, right_df, left_on, right_on, how):
     left = prepare_keys(left_df, left_on)
     right = prepare_keys(right_df, right_on).dropna(subset=right_on)
     if how == "left_anti":
-        merged = pd.merge(left, right, left_on=left_on, right_on=right_on, how="left", suffixes=("_left", "_right"), indicator=True)
-        return merged[merged["_merge"] == "left_only"][list(left.columns)]
+        right_keys = key_set(right, right_on)
+        keep = [key not in right_keys for key in left[left_on].itertuples(index=False, name=None)]
+        return left[keep]
     return pd.merge(left, right, left_on=left_on, right_on=right_on, how=how, suffixes=("_left", "_right"))
 
 
