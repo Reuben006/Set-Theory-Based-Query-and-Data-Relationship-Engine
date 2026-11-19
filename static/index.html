@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Set Theory Query Engine</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/datasets.css">
+  <link rel="stylesheet" href="/css/analysis.css">
+  <link rel="stylesheet" href="/css/sets.css">
+  <link rel="stylesheet" href="/css/cartesian.css">
+  <link rel="stylesheet" href="/css/relations.css">
+  <link rel="stylesheet" href="/css/equivalence.css">
+  <link rel="stylesheet" href="/css/joins.css">
+</head>
+<body>
+  <header><h1>Set Theory Query Engine</h1><p>Explore CSV data through sets, relations and joins.</p></header>
+  <nav><button data-tab="datasets">Datasets</button><button data-tab="sets">Sets</button><button data-tab="cartesian">Cartesian</button><button data-tab="relations">Relations</button><button data-tab="equivalence">Classes</button><button data-tab="joins">Joins</button><button data-tab="analysis">Analysis</button></nav>
+  <main><section id="tab-datasets" class="tab"></section><section id="tab-sets" class="tab"></section><section id="tab-cartesian" class="tab"></section><section id="tab-relations" class="tab"></section><section id="tab-equivalence" class="tab"></section><section id="tab-joins" class="tab"></section><section id="tab-analysis" class="tab"></section></main>
+  <div id="toast"></div>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/datasets.js"></script>
+  <script src="/js/sets.js"></script>
+  <script src="/js/cartesian.js"></script>
+  <script src="/js/relations.js"></script>
+  <script src="/js/equivalence.js"></script>
+  <script src="/js/joins.js"></script>
+  <script src="/js/analysis.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

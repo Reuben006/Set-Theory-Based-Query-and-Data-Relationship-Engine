@@ -1,0 +1,1 @@
+.relations-pairs { min-height: 120px; width: 100%; }.relations-props { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }.relations-props div { padding: 10px; border-radius: 6px; background: #f6f8fa; } .yes { color: #1a7f37; } .no { color: #cf222e; } @media (max-width: 700px) { .relations-props { grid-template-columns: 1fr; } }

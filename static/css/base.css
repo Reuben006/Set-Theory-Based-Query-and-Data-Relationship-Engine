@@ -1,0 +1,13 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #f6f8fa; color: #24292f; font-family: system-ui, sans-serif; }
+header, nav, main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+header { padding-top: 28px; }
+h1 { margin: 0; } p { line-height: 1.5; }
+nav { display: flex; gap: 8px; border-bottom: 1px solid #d0d7de; }
+button, .button { border: 1px solid #0969da; border-radius: 6px; background: #0969da; color: white; padding: 8px 12px; cursor: pointer; font: inherit; text-decoration: none; }
+button:hover, .button:hover { background: #0757b1; }
+button.secondary { background: white; color: #0969da; } button.active { background: #0550ae; } button:disabled { opacity: .6; cursor: wait; }
+.tab { display: none; }.tab.active { display: block; }.card { background: white; border: 1px solid #d0d7de; border-radius: 8px; padding: 16px; margin: 14px 0; }
+.table-wrap { overflow-x: auto; } table { width: 100%; border-collapse: collapse; font-size: 14px; } th, td { padding: 8px; text-align: left; border-bottom: 1px solid #d8dee4; } th { background: #f6f8fa; position: sticky; top: 0; } tr:nth-child(even) { background: #f6f8fa; }.missing { color: #8c959f; }.summary { background: #ddf4ff; padding: 12px; border-radius: 6px; }.actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }.stats td:first-child { text-transform: capitalize; }.hidden { display: none; }
+#toast { position: fixed; right: 18px; bottom: 18px; padding: 12px; border-radius: 6px; color: white; display: none; }.toast-error { display: block !important; background: #cf222e; }.toast-success { display: block !important; background: #1a7f37; }
+@media (max-width: 600px) { header, nav, main { padding: 12px; } nav { overflow-x: auto; } }
