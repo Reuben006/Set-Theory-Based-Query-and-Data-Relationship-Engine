@@ -2,7 +2,7 @@
 
 A small, local web app that turns CSV columns into mathematical sets. It is designed for students and teachers who want to explore set theory using real tabular data rather than abstract examples alone.
 
-Upload CSV files, choose columns, and explore unions, intersections, Cartesian products, relations, equivalence classes, and database joins from one simple browser interface.
+Upload CSV files, choose columns, and explore unions, intersections, Cartesian products, relations, and equivalence classes from one simple browser interface.
 
 ## Features
 
@@ -11,10 +11,9 @@ Upload CSV files, choose columns, and explore unions, intersections, Cartesian p
 | Datasets | Upload CSV files, preview rows, inspect column types, missing values, and duplicates |
 | Sets | Union, intersection, difference, and symmetric difference |
 | Cartesian product | Generate ordered pairs with safety limits for large products |
-| Relations | Build a relation from rows, a mathematical rule, or manual pairs |
+| Relations | Build a relation automatically from dataset rows or a mathematical rule |
 | Relation properties | Check reflexivity, symmetry, transitivity, and equivalence status with witnesses |
 | Equivalence classes | Group by a column, grouping rule, or stored equivalence relation |
-| Joins | Inner, left, right, outer, and left-anti joins with distinct-key statistics |
 | Results | Review generated results and download them as CSV files |
 
 ## Tech stack
@@ -45,16 +44,15 @@ If `python` points to the Microsoft Store placeholder on Windows, use the full p
 2. Upload `sample_data/students.csv` and `sample_data/clubs.csv`.
 3. In **Sets**, compare the `city` column from both files.
 4. In **Cartesian**, generate `dept × club`.
-5. In **Relations**, build the `equal` rule using `id` against `id`, then check its properties.
+5. In **Relations**, generate pairs from two columns in a dataset or apply the `equal` rule, then check the relation properties.
 6. In **Classes**, group `students.csv` by `city`.
-7. In **Joins**, run an inner join on `id`.
 
 ## Project structure
 
 ```text
 app.py                 Flask application and route registration
 routes/                Thin HTTP request handlers
-services/              Set theory, relation, join, and data logic
+services/              Set theory, relation, and data logic
 static/                Browser interface: HTML, CSS, and JavaScript
 sample_data/           Ready-to-use example CSV files
 store.py               In-memory datasets and saved results
@@ -76,7 +74,7 @@ Browser UI → Flask route → service function → pandas / in-memory store
 
 ## Sample data
 
-`students.csv` intentionally contains one duplicate row and one missing mark, so it is useful for trying the data-quality panel. `clubs.csv` shares a few IDs and cities with it, making it useful for set operations and joins.
+`students.csv` intentionally contains one duplicate row and one missing mark, so it is useful for trying the data-quality panel. `clubs.csv` shares a few IDs and cities with it, making it useful for set operations.
 
 ## Learning order
 

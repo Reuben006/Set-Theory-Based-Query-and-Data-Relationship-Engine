@@ -1,8 +1,7 @@
 from flask import Flask, send_from_directory
-from werkzeug.exceptions import HTTPException
 
 from config import MAX_UPLOAD_MB
-from routes import cartesian, datasets, equivalence, export, joins, relations, results, sets
+from routes import cartesian, datasets, equivalence, export, relations, results, sets
 from utils import ApiError, fail
 
 
@@ -16,7 +15,6 @@ def create_app():
     app.register_blueprint(cartesian.bp, url_prefix="/api/cartesian")
     app.register_blueprint(relations.bp, url_prefix="/api/relations")
     app.register_blueprint(equivalence.bp, url_prefix="/api/equivalence")
-    app.register_blueprint(joins.bp, url_prefix="/api/joins")
 
     @app.route("/")
     def index():
@@ -32,15 +30,10 @@ def create_app():
 
     @app.errorhandler(Exception)
     def handle_exception(error):
-        if isinstance(error, HTTPException):
-            return fail(error.description, error.code)
         return fail("Something went wrong on the server.", 500)
 
     return app
 
 
-app = create_app()
-
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    create_app().run(debug=True)

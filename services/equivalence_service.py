@@ -19,14 +19,7 @@ def mod_n(element, param):
     return str(int(number) % param)
 
 
-KEY_RULES = {
-    "same_value": lambda element, param: element,
-    "same_length": lambda element, param: str(len(element)),
-    "first_letter": lambda element, param: element[0].lower(),
-    "last_char": lambda element, param: element[-1].lower(),
-    "lowercase": lambda element, param: element.lower(),
-    "mod_n": mod_n,
-}
+KEY_RULES = {"same_value": lambda element, param: element, "same_length": lambda element, param: str(len(element)), "first_letter": lambda element, param: element[0].lower(), "last_char": lambda element, param: element[-1].lower(), "lowercase": lambda element, param: element.lower(), "mod_n": mod_n}
 
 
 def group_by_key(items, key_function):
@@ -81,9 +74,7 @@ def find_classes(payload):
     mode = payload.get("mode")
     if mode == "column":
         record = store.get_dataset(payload.get("dataset_id", ""))
-        classes = classes_from_column(
-            record["df"], payload.get("group_column"), payload.get("member_column")
-        )
+        classes = classes_from_column(record["df"], payload.get("group_column"), payload.get("member_column"))
         label = f"Classes by column: {record['name']}"
     elif mode == "rule":
         record = store.get_dataset(payload.get("dataset_id", ""))
@@ -98,42 +89,9 @@ def find_classes(payload):
         raise ApiError(f"Unknown equivalence mode: {mode}.")
     total = sum(len(members) for members in classes.values())
     sizes = [{"key": key, "size": len(members)} for key, members in classes.items()]
-    stats = {
-        "total_elements": total,
-        "class_count": len(classes),
-        "sizes": sizes,
-        "largest": max([item["size"] for item in sizes], default=0),
-        "smallest": min([item["size"] for item in sizes], default=0),
-    }
+    stats = {"total_elements": total, "class_count": len(classes), "sizes": sizes, "largest": max([item["size"] for item in sizes], default=0), "smallest": min([item["size"] for item in sizes], default=0)}
     summary = analysis_service.summarize("equivalence", stats)
-    rows = [
-        [index, key, member]
-        for index, (key, members) in enumerate(classes.items(), 1)
-        for member in members
-    ]
-    result_id = store.add_result(
-        "equivalence",
-        label,
-        pd.DataFrame(rows, columns=["class_id", "class_key", "member"]),
-        stats,
-        summary,
-    )
-    output = [
-        {
-            "class_id": index,
-            "key": key,
-            "size": len(members),
-            "members": members[:CLASS_MEMBERS_LIMIT],
-            "members_truncated": len(members) > CLASS_MEMBERS_LIMIT,
-        }
-        for index, (key, members) in enumerate(classes.items(), 1)
-    ]
-    return {
-        "result_id": result_id,
-        "kind": "equivalence",
-        "classes": output,
-        "class_count": len(classes),
-        "stats": stats,
-        "is_partition": is_partition(classes, total),
-        "summary": summary,
-    }
+    rows = [[index, key, member] for index, (key, members) in enumerate(classes.items(), 1) for member in members]
+    result_id = store.add_result("equivalence", label, pd.DataFrame(rows, columns=["class_id", "class_key", "member"]), stats, summary)
+    output = [{"class_id": index, "key": key, "size": len(members), "members": members[:CLASS_MEMBERS_LIMIT], "members_truncated": len(members) > CLASS_MEMBERS_LIMIT} for index, (key, members) in enumerate(classes.items(), 1)]
+    return {"result_id": result_id, "kind": "equivalence", "classes": output, "class_count": len(classes), "stats": stats, "is_partition": is_partition(classes, total), "summary": summary}
