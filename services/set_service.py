@@ -2,6 +2,7 @@ import pandas as pd
 
 import store
 from services import analysis_service
+from services.venn_service import make_venn_diagram
 from services.common import limit_preview, load_set
 from utils import ApiError
 
@@ -44,4 +45,5 @@ def operate(payload):
     summary = analysis_service.summarize("set_operation", stats)
     result_id = store.add_result("set_operation", f"{stats['operation']}: {name_a} + {name_b}", pd.DataFrame({"element": result}), stats, summary)
     preview, truncated = limit_preview(result)
-    return {"result_id": result_id, "kind": "set_operation", "operation": payload["operation"], "elements": preview, "count": len(result), "truncated": truncated, "stats": stats, "summary": summary}
+    diagram = make_venn_diagram(list_a, list_b, payload["operation"])
+    return {"result_id": result_id, "kind": "set_operation", "operation": payload["operation"], "elements": preview, "count": len(result), "truncated": truncated, "stats": stats, "summary": summary, "venn_diagram": diagram}
