@@ -40,8 +40,13 @@ def quality_report(df):
 
 
 def page_rows(df, page, page_size):
-    page = max(1, int(page or 1))
-    page_size = min(PAGE_SIZE_MAX, max(1, int(page_size or PAGE_SIZE_DEFAULT)))
+    try:
+        page = int(page) if page not in (None, "") else 1
+        page_size = int(page_size) if page_size not in (None, "") else PAGE_SIZE_DEFAULT
+    except (TypeError, ValueError):
+        raise ApiError("Page and page_size must be whole numbers.")
+    page = max(1, page)
+    page_size = min(PAGE_SIZE_MAX, max(1, page_size))
     total_rows = len(df)
     total_pages = max(1, (total_rows + page_size - 1) // page_size)
     page = min(page, total_pages)
