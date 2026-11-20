@@ -2,6 +2,8 @@
 
 A small, local web app that turns CSV columns into mathematical sets. It is designed for students and teachers who want to explore set theory using real tabular data rather than abstract examples alone.
 
+This is a PDL Mini Project made by Swayam, Vihaan and Reuben.
+
 Upload CSV files, choose columns, and explore unions, intersections, Cartesian products, relations, and equivalence classes from one simple browser interface.
 
 ## Features
@@ -21,6 +23,7 @@ Upload CSV files, choose columns, and explore unions, intersections, Cartesian p
 - Python
 - Flask
 - pandas
+- Matplotlib and matplotlib-venn for set-operation diagrams
 - Plain HTML, CSS, and JavaScript
 
 There is no database, npm setup, frontend framework, or external service. Data stays in memory while the app is running and is cleared when the server stops.

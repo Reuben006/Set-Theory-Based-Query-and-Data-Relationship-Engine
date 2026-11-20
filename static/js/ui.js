@@ -4,7 +4,7 @@ const Ui = {
   renderTable(container, columns, rows) { if (!rows.length) { container.textContent = "No rows"; return; } const headers = columns.map(value => `<th>${this.escape(value)}</th>`).join(""); const body = rows.map(row => `<tr>${row.map(value => `<td${value === null ? ' class="missing"' : ""}>${value === null ? "-" : this.escape(value)}</td>`).join("")}</tr>`).join(""); container.innerHTML = `<div class="table-wrap"><table><thead><tr>${headers}</tr></thead><tbody>${body}</tbody></table></div>`; },
   renderStats(container, stats) { this.renderTable(container, ["Item", "Value"], Object.entries(stats).map(([key, value]) => [key.replaceAll("_", " "), typeof value === "object" ? JSON.stringify(value) : value])); },
   renderSummary(container, text) { container.innerHTML = `<p class="summary">${this.escape(text)}</p>`; },
-  renderExportButton(container, resultId) { container.innerHTML = `<a class="button" href="${Api.exportUrl(resultId)}">Download CSV</a>`; },
+  renderExportButton(container, resultId) { container.innerHTML = `<div class="export-actions"><a class="button" href="${Api.exportUrl(resultId)}" download>Download CSV</a></div>`; },
   fillSelect(select, items, valueKey, labelKey) { select.innerHTML = `<option value="">-- choose --</option>${items.map(item => `<option value="${this.escape(item[valueKey])}">${this.escape(item[labelKey])}</option>`).join("")}`; },
   setBusy(button, busy) { if (!button.dataset.text) button.dataset.text = button.textContent; button.disabled = busy; button.textContent = busy ? "Working..." : button.dataset.text; },
   createSetPicker(container, title) {
